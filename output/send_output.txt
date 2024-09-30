@@ -1,0 +1,28 @@
+* Non-zero A-count (estimate): 136316
+* Non-zero B-count (estimate): 165335
+* QAP number of variables: 227046
+* QAP pre degree: 252286
+* QAP degree: 262144
+* QAP number of input variables: 5
+Choosing window size 16 for 528702 elements
+* G1 window: 16
+Choosing window size 14 for 136316 elements
+* G2 window: 14
+....................... DONE!
+Non-zero coordinate count: 136316/227047 (60.04%)
+........................... DONE!
+....................... DONE!
+. DONE!
+* G1 elements in PK: 943279
+* Non-zero G1 elements in PK: 852548
+* G2 elements in PK: 227048
+* Non-zero G2 elements in PK: 136317
+* PK size in bits: 295509317
+* PK size in bytes: 36938664.62
+* PK size in KB: 36938.66
+* PK size in MB: 36.94
+* G1 elements in VK: 5
+* G2 elements in VK: 2
+* GT elements in VK: 1
+* VK size in bits: 2868
+* VK size in bytes: 358.50
