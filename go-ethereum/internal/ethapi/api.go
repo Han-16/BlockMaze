@@ -1398,6 +1398,10 @@ func (s *PublicTransactionPoolAPI) SendMintTransaction(ctx context.Context, args
 	// 	fmt.Println("cannot send mintTx after sendTx")
 	// 	return common.Hash{}, nil
 	// }
+	fmt.Printf("***** Mint Start")
+	startTime := time.Now()
+
+
 	if zktx.SNfile == nil {
 		fmt.Println("SNfile does not exist")
 		return common.Hash{}, nil
@@ -1478,10 +1482,10 @@ func (s *PublicTransactionPoolAPI) SendMintTransaction(ctx context.Context, args
 		return common.Hash{}, errors.New("not enough balance")
 	}
 
-	//genProofStart := time.Now()
+	genProofStart := time.Now()
 	zkProof := zktx.GenMintProof(SN.Value, SN.Random, newSN, newRandom, SN.CMT, SN.SN, newCMT, newValue, SK)
-	//genProofEnd := time.Now()
-	// fmt.Println("***** GenMintProof Cost Time (ms): ", genProofEnd.Sub(genProofStart).Nanoseconds() / 1000000)
+	genProofEnd := time.Now()
+	fmt.Println("***** GenMintProof Cost Time (ms): ", genProofEnd.Sub(genProofStart).Nanoseconds() / 1000000)
 	
 	if string(zkProof[0:10]) == "0000000000" {
 		return common.Hash{}, errors.New("can't generate proof")
@@ -1519,7 +1523,10 @@ func (s *PublicTransactionPoolAPI) SendMintTransaction(ctx context.Context, args
 		wt.Flush()
 	}
 	
-	//fmt.Println("***** mint transaction size: ", signed.Size())
+	fmt.Println("***** Mint transaction size: ", signed.Size())
+	endTime := time.Now()
+	execTime := endTime.Sub(startTime)
+	fmt.Printf("***** Mint execution time: : %v\n", execTime)
 	
 	return hash, err
 }
@@ -1562,6 +1569,9 @@ func (s *PublicTransactionPoolAPI) SendSendTransaction(ctx context.Context, args
 	// 	fmt.Println("cannot send sendTx after sendTx")
 	// 	return common.Hash{}, nil
 	// }
+	fmt.Printf("***** Send Start")
+	startTime := time.Now()
+
 	if zktx.SNfile == nil {
 		fmt.Println("SNfile does not exist")
 		return common.Hash{}, nil
@@ -1683,10 +1693,10 @@ func (s *PublicTransactionPoolAPI) SendSendTransaction(ctx context.Context, args
 	tx.SetZKCMT(newCMTA)
 	//tx.SetZKAddress(&args.From)
 	//end
-	//genProofStart := time.Now()
+	genProofStart := time.Now()
 	zkProof := zktx.GenSendProof(SN.CMT, SN.Value, SN.Random, args.Value.ToInt().Uint64(), randomReceiverPK, newRs, SN.SN, CMTs, newValueA, newSNA, newRandomA, newCMTA, SK, PK_sender)
-	//genProofEnd := time.Now()
-	// fmt.Println("***** GenSendProof Cost Time (ms): ", genProofEnd.Sub(genProofStart).Nanoseconds() / 1000000)
+	genProofEnd := time.Now()
+	fmt.Println("***** GenSendProof Cost Time (ms): ", genProofEnd.Sub(genProofStart).Nanoseconds() / 1000000)
 	if string(zkProof[0:10]) == "0000000000" {
 		return common.Hash{}, errors.New("can't generate proof")
 	}
@@ -1728,7 +1738,10 @@ func (s *PublicTransactionPoolAPI) SendSendTransaction(ctx context.Context, args
 		wt.Flush()
 	}
 	
-	//fmt.Println("***** send transaction size: ", tx.Size())
+	fmt.Println("***** Send transaction size: ", tx.Size())
+	endTime := time.Now()
+	execTime := endTime.Sub(startTime)
+	fmt.Printf("***** Send execution time: : %v\n", execTime)
 	
 	return hash, err
 
@@ -1747,6 +1760,9 @@ func (s *PublicTransactionPoolAPI) SendDepositTransaction(ctx context.Context, a
 	// 	fmt.Println("cannot send DepositTx after sendTx")  //修改方案后无影响
 	// 	return common.Hash{}, nil
 	// }
+	fmt.Printf("***** Deposit Start")
+	startTime := time.Now()
+
 	if zktx.SNfile == nil {
 		fmt.Println("SNfile does not exist")
 		return common.Hash{}, nil
@@ -1909,10 +1925,10 @@ loop:
 	tx.SetZKCMT(newCMTB)
 	tx.SetPubKey(randomKeyB.X, randomKeyB.Y)
 
-	//genProofStart := time.Now()
+	genProofStart := time.Now()
 	zkProof := zktx.GenDepositProof(txSend.ZKCMTS(), valueS, sns, rs, sna, SNb.Value, SNb.Random, newSN, newRandom, &randomKeyB.PublicKey, RTcmt.Bytes(), SNb.CMT, SNb.SN, newCMTB, CMTSForMerkle, SK)
-	//genProofEnd := time.Now()
-	// fmt.Println("***** GenDepositProof Cost Time (ms): ", genProofEnd.Sub(genProofStart).Nanoseconds() / 1000000)
+	genProofEnd := time.Now()
+	fmt.Println("***** GenDepositProof Cost Time (ms): ", genProofEnd.Sub(genProofStart).Nanoseconds() / 1000000)
 
 	if string(zkProof[0:10]) == "0000000000" {
 		return common.Hash{}, errors.New("can't generate proof")
@@ -1953,7 +1969,10 @@ loop:
 		wt.Flush()
 	}
 	
-	//fmt.Println("***** deposit transaction size: ", signedTx.Size())
+	fmt.Println("***** deposit transaction size: ", signedTx.Size())
+	endTime := time.Now()
+	execTime := endTime.Sub(startTime)
+	fmt.Printf("***** Deposit execution time: : %v\n", execTime)
 	
 	return hash, err
 }
@@ -1965,6 +1984,9 @@ func (s *PublicTransactionPoolAPI) SendRedeemTransaction(ctx context.Context, ar
 	// 	fmt.Println("cannot send Redeem after sendTx")
 	// 	return common.Hash{}, nil
 	// }
+	fmt.Printf("***** Deposit Start")
+	startTime := time.Now()
+
 	if zktx.SNfile == nil {
 		fmt.Println("SNfile does not exist")
 		return common.Hash{}, nil
@@ -2043,10 +2065,10 @@ func (s *PublicTransactionPoolAPI) SendRedeemTransaction(ctx context.Context, ar
 	newCMT := zktx.GenCMT(newValue, newSN.Bytes(), newRandom.Bytes()) //tbd
 	tx.SetZKCMT(newCMT)                                               //cmt
 
-	//genProofStart := time.Now()
+	genProofStart := time.Now()
 	zkProof := zktx.GenRedeemProof(SN.Value, SN.Random, newSN, newRandom, SN.CMT, SN.SN, newCMT, newValue, SK)
-	//genProofEnd := time.Now()
-	// fmt.Println("***** GenRedeemProof Cost Time (ms): ", genProofEnd.Sub(genProofStart).Nanoseconds() / 1000000)
+	genProofEnd := time.Now()
+	fmt.Println("***** GenRedeemProof Cost Time (ms): ", genProofEnd.Sub(genProofStart).Nanoseconds() / 1000000)
 
 	if string(zkProof[0:10]) == "0000000000" {
 		return common.Hash{}, errors.New("can't generate proof")
@@ -2084,7 +2106,10 @@ func (s *PublicTransactionPoolAPI) SendRedeemTransaction(ctx context.Context, ar
 		wt.Flush()
 	}
 	
-	//fmt.Println("***** redeem transaction size: ", signed.Size())
+	fmt.Println("***** redeem transaction size: ", signed.Size())
+	endTime := time.Now()
+	execTime := endTime.Sub(startTime)
+	fmt.Printf("***** Deposit execution time: : %v\n", execTime)
 	
 	return hash, err
 }

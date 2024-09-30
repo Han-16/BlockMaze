@@ -1,4 +1,3 @@
-# FROM ubuntu:18.04
 FROM --platform=linux/amd64 ubuntu:18.04
 
 RUN apt-get update && \
@@ -23,7 +22,6 @@ ENV GOROOT=/usr/local/go
 ENV GOPATH=/root/go
 ENV PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 ENV LD_LIBRARY_PATH=/usr/local/lib
-# ENV GO111MODULE=off
 
 RUN wget https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
@@ -39,9 +37,13 @@ RUN echo "export GOROOT=/usr/local/go" >> /root/.profile && \
     echo "export PATH=\$PATH:/usr/local/go/bin:\$GOPATH/bin" >> /root/.profile
 
 COPY . /root/go/src/github.com/ethereum
+RUN cd $GOPATH/src/github.com/ethereum/test/clique && \
+    mkdir test_data && \
+    mv clique.json test_data/genesis.json 
+
 RUN cd $GOPATH/src/github.com/ethereum/test/pow && \
-    mv pow.json genesis.json && \
-    mkdir test_data
+    mkdir test_data && \
+    mv pow.json test_data/genesis.json
 
 RUN cd $GOPATH/src/github.com/ethereum && \
     mkdir prfKey && \
