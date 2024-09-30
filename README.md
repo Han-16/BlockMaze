@@ -133,9 +133,39 @@ docker build -t blockmaze_image .
 
 docker run -it --name blockmaze blockmaze_image
 
-cd $GOPATH/src/github.com/ethereum/test/pow
+cd $GOPATH/src/github.com/ethereum/test/clique
+
+// for accounts[0]
+geth --datadir test_data account new
+
+// for accounts[1]
+geth --datadir test_data account new
 
 geth --datadir test_data init ./genesis.json
+```
+
+##### Insert accounts[0], account[1] into genesis.json
+
+```
+  "coinbase": "0xa02e93413246e6e96ae8fc921d9c27a9d46a957c",
+  "alloc": {
+    "0000000000000000000000000000000000000000": {
+      "balance": "0x1"
+    },
+    "a02e93413246e6e96ae8fc921d9c27a9d46a957c": {
+	    "balnace": "0x1234"
+    },
+    "94f30c75ab15e76bf177f9a0e1895846a593205a": {
+	    "balance": "0x5555"
+    }
+  },
+```
+
+##### Init genesis block and run testnet
+```
+geth --datadir test_data init genesis.json
 
 geth --networkid 8484 --nodiscover --datadir test_data console 2>> ./test_data/geth.log
+
+personal.unlockAccount("<eth.accounts>","password", 0)
 ```

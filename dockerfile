@@ -39,8 +39,8 @@ RUN echo "export GOROOT=/usr/local/go" >> /root/.profile && \
     echo "export PATH=\$PATH:/usr/local/go/bin:\$GOPATH/bin" >> /root/.profile
 
 COPY . /root/go/src/github.com/ethereum
-RUN cd $GOPATH/src/github.com/ethereum/test/pow && \
-    mv pow.json genesis.json && \
+RUN cd $GOPATH/src/github.com/ethereum/test/clique && \
+    mv clique.json genesis.json && \
     mkdir test_data
 
 RUN cd $GOPATH/src/github.com/ethereum && \
@@ -60,9 +60,6 @@ RUN cd $GOPATH/src/github.com/ethereum/libsnark-vnt/build && \
 RUN cd $GOPATH/src/github.com/ethereum &&  cp -r prfKey /usr/local && \
     cd $GOPATH/src/github.com/ethereum/go-ethereum && \
     go install -v ./cmd/geth
-
-
-
 
 
 CMD ["/bin/bash"]
