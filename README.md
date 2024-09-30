@@ -140,8 +140,6 @@ geth --datadir test_data account new
 
 // for accounts[1]
 geth --datadir test_data account new
-
-geth --datadir test_data init ./genesis.json
 ```
 
 ##### Insert accounts[0], account[1] into genesis.json
@@ -167,5 +165,9 @@ geth --datadir test_data init genesis.json
 
 geth --networkid 8484 --nodiscover --datadir test_data console 2>> ./test_data/geth.log
 
+// or
+$ geth --networkid 45 --nodiscover --maxpeers 0 --datadir /Users/tongchunkim/Documents/Test_Ethereum/data_testnet console 2>> /Users/tongchunkim/Documents/Test_Ethereum/data_testnet/geth.log
+
+//
 personal.unlockAccount("<eth.accounts>","password", 0)
 ```
