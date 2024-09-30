@@ -125,3 +125,17 @@ eth.sendRedeemTransaction({from:"0x492f3232b3e2affb484ddebd3bc84c091b68626f",val
 ### 4. Large-scale testing
 
 refer to [BlockMaze-Test](https://github.com/Agzs/BlockMaze-Test)
+
+
+### 5. CBDC testing
+```
+docker build -t blockmaze_image .
+
+docker run -it --name blockmaze blockmaze_image
+
+cd $GOPATH/src/github.com/ethereum/test/pow
+
+geth --datadir test_data init ./genesis.json
+
+geth --networkid 8484 --nodiscover --datadir test_data console 2>> ./test_data/geth.log
+```
