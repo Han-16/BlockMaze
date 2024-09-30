@@ -1398,10 +1398,6 @@ func (s *PublicTransactionPoolAPI) SendMintTransaction(ctx context.Context, args
 	// 	fmt.Println("cannot send mintTx after sendTx")
 	// 	return common.Hash{}, nil
 	// }
-	fmt.Printf("***** Mint Start")
-	startTime := time.Now()
-
-
 	if zktx.SNfile == nil {
 		fmt.Println("SNfile does not exist")
 		return common.Hash{}, nil
@@ -1524,9 +1520,6 @@ func (s *PublicTransactionPoolAPI) SendMintTransaction(ctx context.Context, args
 	}
 	
 	fmt.Println("***** Mint transaction size: ", signed.Size())
-	endTime := time.Now()
-	execTime := endTime.Sub(startTime)
-	fmt.Printf("***** Mint execution time: : %v\n", execTime)
 	
 	return hash, err
 }
@@ -1569,9 +1562,6 @@ func (s *PublicTransactionPoolAPI) SendSendTransaction(ctx context.Context, args
 	// 	fmt.Println("cannot send sendTx after sendTx")
 	// 	return common.Hash{}, nil
 	// }
-	fmt.Printf("***** Send Start")
-	startTime := time.Now()
-
 	if zktx.SNfile == nil {
 		fmt.Println("SNfile does not exist")
 		return common.Hash{}, nil
@@ -1739,9 +1729,6 @@ func (s *PublicTransactionPoolAPI) SendSendTransaction(ctx context.Context, args
 	}
 	
 	fmt.Println("***** Send transaction size: ", tx.Size())
-	endTime := time.Now()
-	execTime := endTime.Sub(startTime)
-	fmt.Printf("***** Send execution time: : %v\n", execTime)
 	
 	return hash, err
 
@@ -1760,9 +1747,6 @@ func (s *PublicTransactionPoolAPI) SendDepositTransaction(ctx context.Context, a
 	// 	fmt.Println("cannot send DepositTx after sendTx")  //修改方案后无影响
 	// 	return common.Hash{}, nil
 	// }
-	fmt.Printf("***** Deposit Start")
-	startTime := time.Now()
-
 	if zktx.SNfile == nil {
 		fmt.Println("SNfile does not exist")
 		return common.Hash{}, nil
@@ -1969,10 +1953,7 @@ loop:
 		wt.Flush()
 	}
 	
-	fmt.Println("***** deposit transaction size: ", signedTx.Size())
-	endTime := time.Now()
-	execTime := endTime.Sub(startTime)
-	fmt.Printf("***** Deposit execution time: : %v\n", execTime)
+	fmt.Println("***** Deposit transaction size: ", signedTx.Size())
 	
 	return hash, err
 }
@@ -1984,9 +1965,6 @@ func (s *PublicTransactionPoolAPI) SendRedeemTransaction(ctx context.Context, ar
 	// 	fmt.Println("cannot send Redeem after sendTx")
 	// 	return common.Hash{}, nil
 	// }
-	fmt.Printf("***** Deposit Start")
-	startTime := time.Now()
-
 	if zktx.SNfile == nil {
 		fmt.Println("SNfile does not exist")
 		return common.Hash{}, nil
@@ -2106,10 +2084,7 @@ func (s *PublicTransactionPoolAPI) SendRedeemTransaction(ctx context.Context, ar
 		wt.Flush()
 	}
 	
-	fmt.Println("***** redeem transaction size: ", signed.Size())
-	endTime := time.Now()
-	execTime := endTime.Sub(startTime)
-	fmt.Printf("***** Deposit execution time: : %v\n", execTime)
+	fmt.Println("***** Redeem transaction size: ", signed.Size())
 	
 	return hash, err
 }
