@@ -278,6 +278,7 @@ char *genRedeemproof(uint64_t value,
                      char *sk_string
                      )
 {
+    cout << "[cpp] genRedeemproof Start!" << endl;
     //从字符串转uint256
     uint256 sn_old = uint256S(sn_old_string);
     uint256 r_old = uint256S(r_old_string);
@@ -311,12 +312,16 @@ char *genRedeemproof(uint64_t value,
 
     libsnark::r1cs_gg_ppzksnark_proof<libff::alt_bn128_pp> proof = generate_redeem_proof<alt_bn128_pp>(keypair.pk, note_old, note, cmtA_old, cmtA, value_s, sk);
 
+    cout << "Generate Redeem proof successfully!!!" << endl;
+
     //proof转字符串
     std::string proof_string = string_proof_as_hex(proof);
 
     char *p = new char[1153];
     proof_string.copy(p, 1152, 0);
     *(p + 1152) = '\0';
+
+    cout << "[cpp] getRedeemProof End!" << endl;
 
     return p;
 }

@@ -343,6 +343,7 @@ char *genDepositproof(uint64_t value,
                       char *RT,
                       char *sk_string)
 {
+    cout << "[cpp] genDepositproof Start!" << endl;
     uint256 sn_old = uint256S(sn_old_string);
     uint256 r_old = uint256S(r_old_string);
     uint256 sn = uint256S(sn_string);
@@ -433,12 +434,16 @@ char *genDepositproof(uint64_t value,
                                                                                                      sn_s,
                                                                                                      sk);
 
+    cout << "Generate Deposit proof successfully!!!" << endl;                                                            
+
     //proof转字符串
     std::string proof_string = string_proof_as_hex(proof);
 
     char *p = new char[1153];
     proof_string.copy(p, 1152, 0);
     *(p + 1152) = '\0';
+
+    cout << "[cpp] getDeposit End!" << endl;
 
     return p;
 }

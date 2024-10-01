@@ -313,6 +313,7 @@ char *genSendproof(uint64_t value_A,
                    char *sk_string,
                    char *pk_sender_string)
 {
+    cout << "[cpp] getSendProof Start!" << endl;
     //从字符串转uint256
     uint256 r_s = uint256S(r_s_string);
     uint256 sn = uint256S(sn_string);
@@ -353,12 +354,16 @@ char *genSendproof(uint64_t value_A,
 
     libsnark::r1cs_gg_ppzksnark_proof<libff::alt_bn128_pp> proof = generate_send_proof<alt_bn128_pp>(keypair.pk, note_old, notes, note_new, cmtA, cmtS , cmtAnew, sk, pk_sender);
 
+    cout << "Generate send proof successfully!!!" << endl;
+
     //proof转字符串
     std::string proof_string = string_proof_as_hex(proof);
 
     char *p = new char[1153];
     proof_string.copy(p, 1152, 0);
     *(p + 1152) = '\0';
+
+    cout << "[cpp] getSendProof End!" << endl;
 
     return p;
 }

@@ -277,6 +277,7 @@ char *genMintproof(uint64_t value,
                    char *sk_string
                    )
 {
+    cout << "[cpp] genMintproof start!" << endl;
     //从字符串转uint256
     uint256 sn_old = uint256S(sn_old_string);
     uint256 r_old = uint256S(r_old_string);
@@ -306,9 +307,11 @@ char *genMintproof(uint64_t value,
     // printf("\n\n reading mint pk Use Time:%fs\n\n",timeuse);
 
     // 生成proof
-    // cout << "Trying to generate mint proof..." << endl;
+    cout << "[cpp] Trying to generate mint proof..." << endl;
 
     libsnark::r1cs_gg_ppzksnark_proof<libff::alt_bn128_pp> proof = generate_mint_proof<alt_bn128_pp>(keypair.pk, note_old, note, cmtA_old, cmtA, value_s, sk);
+
+    cout << "[cpp] Generate mint proof successfully!!!" << endl;
 
     //proof转字符串
     std::string proof_string = string_proof_as_hex(proof);
@@ -316,6 +319,8 @@ char *genMintproof(uint64_t value,
     char *p = new char[1153];
     proof_string.copy(p, 1152, 0);
     *(p + 1152) = '\0';
+
+    cout << "[cpp] genMintproof End!" << endl;
 
     return p;
 }
