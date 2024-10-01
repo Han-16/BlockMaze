@@ -1479,10 +1479,10 @@ func (s *PublicTransactionPoolAPI) SendMintTransaction(ctx context.Context, args
 	}
 
 	genProofStart := time.Now()
-	fmt.Println("***** Generate Mint Proof Start")
+	fmt.Println("[Geth] GenMintProof Start")
 	zkProof := zktx.GenMintProof(SN.Value, SN.Random, newSN, newRandom, SN.CMT, SN.SN, newCMT, newValue, SK)
 	genProofEnd := time.Now()
-	fmt.Println("***** GenMintProof Cost Time (s): ", genProofEnd.Sub(genProofStart).Seconds())
+	fmt.Println("[Geth] GenMintProof Cost Time (s): ", genProofEnd.Sub(genProofStart).Seconds())
 	
 	if string(zkProof[0:10]) == "0000000000" {
 		return common.Hash{}, errors.New("can't generate proof")
@@ -1520,7 +1520,7 @@ func (s *PublicTransactionPoolAPI) SendMintTransaction(ctx context.Context, args
 		wt.Flush()
 	}
 	
-	fmt.Println("***** Mint transaction size: ", signed.Size())
+	fmt.Println("[Geth] Mint transaction size: ", signed.Size())
 	
 	return hash, err
 }
@@ -1685,10 +1685,10 @@ func (s *PublicTransactionPoolAPI) SendSendTransaction(ctx context.Context, args
 	//tx.SetZKAddress(&args.From)
 	//end
 	genProofStart := time.Now()
-	fmt.Println("***** Generate Send Proof Start")
+	fmt.Println("[Geth] Generate Send Proof Start")
 	zkProof := zktx.GenSendProof(SN.CMT, SN.Value, SN.Random, args.Value.ToInt().Uint64(), randomReceiverPK, newRs, SN.SN, CMTs, newValueA, newSNA, newRandomA, newCMTA, SK, PK_sender)
 	genProofEnd := time.Now()
-	fmt.Println("***** GenSendProof Cost Time (s): ", genProofEnd.Sub(genProofStart).Seconds())
+	fmt.Println("[Geth] GenSendProof Cost Time (s): ", genProofEnd.Sub(genProofStart).Seconds())
 	if string(zkProof[0:10]) == "0000000000" {
 		return common.Hash{}, errors.New("can't generate proof")
 	}
@@ -1730,7 +1730,7 @@ func (s *PublicTransactionPoolAPI) SendSendTransaction(ctx context.Context, args
 		wt.Flush()
 	}
 	
-	fmt.Println("***** Send transaction size: ", tx.Size())
+	fmt.Println("[Geth] Send transaction size: ", tx.Size())
 	
 	return hash, err
 
@@ -1882,7 +1882,7 @@ loop:
 	randomKeyB := zktx.GenerateKeyForRandomB(&R, &KB)
 	//fmt.Println("***** sum randomSKeyB size: ", randomKeyB.D.BitLen())	
 	randomKeyEnd := time.Now()
-	fmt.Println("***** randomKey Cost Time (s): ", randomKeyEnd.Sub(randomKeyStart).Seconds())
+	fmt.Println("[Geth] randomKey Cost Time (s): ", randomKeyEnd.Sub(randomKeyStart).Seconds())
 
 
 	AUXA := txSend.AUX()
@@ -1912,10 +1912,10 @@ loop:
 	tx.SetPubKey(randomKeyB.X, randomKeyB.Y)
 
 	genProofStart := time.Now()
-	fmt.Println("***** Generate Deposit Proof Start")
+	fmt.Println("[Geth] Generate Deposit Proof Start")
 	zkProof := zktx.GenDepositProof(txSend.ZKCMTS(), valueS, sns, rs, sna, SNb.Value, SNb.Random, newSN, newRandom, &randomKeyB.PublicKey, RTcmt.Bytes(), SNb.CMT, SNb.SN, newCMTB, CMTSForMerkle, SK)
 	genProofEnd := time.Now()
-	fmt.Println("***** GenDepositProof Cost Time (s): ", genProofEnd.Sub(genProofStart).Seconds())
+	fmt.Println("[Geth] GenDepositProof Cost Time (s): ", genProofEnd.Sub(genProofStart).Seconds())
 
 	if string(zkProof[0:10]) == "0000000000" {
 		return common.Hash{}, errors.New("can't generate proof")
@@ -1956,7 +1956,7 @@ loop:
 		wt.Flush()
 	}
 	
-	fmt.Println("***** Deposit transaction size: ", signedTx.Size())
+	fmt.Println("[Geth] Deposit transaction size: ", signedTx.Size())
 	
 	return hash, err
 }
@@ -2047,10 +2047,10 @@ func (s *PublicTransactionPoolAPI) SendRedeemTransaction(ctx context.Context, ar
 	tx.SetZKCMT(newCMT)                                               //cmt
 
 	genProofStart := time.Now()
-	fmt.Println("***** Generate Redeem Proof Start")
+	fmt.Println("[Geth] Generate Redeem Proof Start")
 	zkProof := zktx.GenRedeemProof(SN.Value, SN.Random, newSN, newRandom, SN.CMT, SN.SN, newCMT, newValue, SK)
 	genProofEnd := time.Now()
-	fmt.Println("***** GenRedeemProof Cost Time (s): ", genProofEnd.Sub(genProofStart).Seconds())
+	fmt.Println("[Geth] GenRedeemProof Cost Time (s): ", genProofEnd.Sub(genProofStart).Seconds())
 
 	if string(zkProof[0:10]) == "0000000000" {
 		return common.Hash{}, errors.New("can't generate proof")
@@ -2088,7 +2088,7 @@ func (s *PublicTransactionPoolAPI) SendRedeemTransaction(ctx context.Context, ar
 		wt.Flush()
 	}
 	
-	fmt.Println("***** Redeem transaction size: ", signed.Size())
+	fmt.Println("[Geth] Redeem transaction size: ", signed.Size())
 	
 	return hash, err
 }

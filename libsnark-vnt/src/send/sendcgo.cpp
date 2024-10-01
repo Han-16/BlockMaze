@@ -336,25 +336,30 @@ char *genSendproof(uint64_t value_A,
     //初始化参数
     alt_bn128_pp::init_public_params();
 
-    struct timeval t1, t2;
-    double timeuse;
+    struct timeval t1, t2, t3, t4;
+    double timeuse1, timeuse2;
     gettimeofday(&t1,NULL);
 
     r1cs_gg_ppzksnark_keypair<alt_bn128_pp> keypair;
-    //cout << "Trying to read send proving key file..." << endl;
-    //cout << "Please be patient as this may take about 25 seconds. " << endl;
+    cout << "Trying to read send proving key file..." << endl;
+    cout << "Please be patient as this may take about 25 seconds. " << endl;
     keypair.pk = deserializeProvingKeyFromFile("/usr/local/prfKey/sendpk.txt");
 
     gettimeofday(&t2,NULL);
-    timeuse = t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec)/1000000.0;
-    // printf("\n\n reading send pk Use Time:%fs\n\n",timeuse);
+    timeuse1 = t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec)/1000000.0;
+    printf("\n\n reading send pk Use Time:%fs\n\n",timeuse1);
 
     // 生成proof
+    gettimeofday(&t3, NULL);
     cout << "Trying to generate send proof..." << endl;
 
     libsnark::r1cs_gg_ppzksnark_proof<libff::alt_bn128_pp> proof = generate_send_proof<alt_bn128_pp>(keypair.pk, note_old, notes, note_new, cmtA, cmtS , cmtAnew, sk, pk_sender);
 
     cout << "Generate send proof successfully!!!" << endl;
+
+    gettimeofday(&t4, NULL);
+    timeuse2 = t4.tv_sec - t3.tv_sec + (t4.tv_usec - t3.tv_usec)/1000000.0;
+    printf("[cpp] Generating send proof Use Time: %fs\n", timeuse2)
 
     //proof转字符串
     std::string proof_string = string_proof_as_hex(proof);

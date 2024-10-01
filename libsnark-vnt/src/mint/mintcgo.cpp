@@ -277,7 +277,7 @@ char *genMintproof(uint64_t value,
                    char *sk_string
                    )
 {
-    cout << "[cpp] genMintproof start!" << endl;
+    cout << "[cpp] genMintproof Enter!" << endl;
     //从字符串转uint256
     uint256 sn_old = uint256S(sn_old_string);
     uint256 r_old = uint256S(r_old_string);
@@ -293,25 +293,29 @@ char *genMintproof(uint64_t value,
     //初始化参数
     alt_bn128_pp::init_public_params();
     
-    struct timeval t1, t2;
-    double timeuse;
+    struct timeval t1, t2, t3, t4;
+    double timeuse1, timeuse2;
     gettimeofday(&t1,NULL);
 
     r1cs_gg_ppzksnark_keypair<alt_bn128_pp> keypair;
-    //cout << "Trying to read mint proving key file..." << endl;
-    //cout << "Please be patient as this may take about 20 seconds. " << endl;
+    cout << "Trying to read mint proving key file..." << endl;
+    cout << "Please be patient as this may take about 20 seconds. " << endl;
     keypair.pk = deserializeProvingKeyFromFile("/usr/local/prfKey/mintpk.txt");
 
     gettimeofday(&t2,NULL);
-    timeuse = t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec)/1000000.0;
-    // printf("\n\n reading mint pk Use Time:%fs\n\n",timeuse);
+    timeuse1 = t2.tv_sec - t1.tv_sec + (t2.tv_usec - t1.tv_usec)/1000000.0;
+    printf("\n\n reading mint pk Use Time:%fs\n\n",timeuse1);
 
     // 生成proof
+    gettimeofday(&t3, NULL);
     cout << "[cpp] Trying to generate mint proof..." << endl;
 
     libsnark::r1cs_gg_ppzksnark_proof<libff::alt_bn128_pp> proof = generate_mint_proof<alt_bn128_pp>(keypair.pk, note_old, note, cmtA_old, cmtA, value_s, sk);
-
     cout << "[cpp] Generate mint proof successfully!!!" << endl;
+
+    gettimeofday(&t4, NULL);
+    timeuse2 = t4.tv_sec - t3.tv_sec + (t4.tv_usec - t3.tv_usec)/1000000.0;
+    printf("[cpp] Generating mint proof Use Time: %fs\n", timeuse2)
 
     //proof转字符串
     std::string proof_string = string_proof_as_hex(proof);
