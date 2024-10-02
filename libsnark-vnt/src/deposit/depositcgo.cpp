@@ -407,7 +407,7 @@ char *genDepositproof(uint64_t value,
     alt_bn128_pp::init_public_params();
 
     struct timeval t1, t2, t3, t4;
-    double timeuse1, timeuse2
+    double timeuse1, timeuse2;
     gettimeofday(&t1,NULL);
 
     r1cs_gg_ppzksnark_keypair<alt_bn128_pp> keypair;
@@ -439,7 +439,7 @@ char *genDepositproof(uint64_t value,
 
     gettimeofday(&t4, NULL);
     timeuse2 = t4.tv_sec - t3.tv_sec + (t4.tv_usec - t3.tv_usec)/1000000.0;
-    printf("[cpp] Generating deposit proof Use Time: %fs\n", timeuse2)
+    printf("[cpp] Generating deposit proof Use Time: %fs\n", timeuse2);
 
     //proof转字符串
     std::string proof_string = string_proof_as_hex(proof);
